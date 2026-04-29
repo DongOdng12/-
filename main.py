@@ -166,7 +166,11 @@ def unmark():
         save_history(order_history)
         return jsonify({"ok": True})
     return jsonify({"ok": False, "error": "not found"}), 404
-
+@app.route("/ip")
+def get_ip():
+    import urllib.request
+    ip = urllib.request.urlopen("https://api.ipify.org").read().decode()
+    return jsonify({"ip": ip})
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
