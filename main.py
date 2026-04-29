@@ -43,11 +43,12 @@ def make_auth(method, path, query=""):
     return auth, dt
 
 def coupang_get(path, params=None):
-    query = urlencode(sorted(params.items())) if params else ""
+    query = urlencode(params) if params else ""
     auth, dt = make_auth("GET", path, query)
     url = BASE_URL + path + ("?" + query if query else "")
     req = urllib.request.Request(url, headers={
         "Authorization": auth,
+        "X-Requested-By": VENDOR_ID,
         "Content-Type": "application/json;charset=UTF-8",
     })
     with urllib.request.urlopen(req, timeout=15) as resp:
