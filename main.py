@@ -32,14 +32,15 @@ order_history = load_history()
 
 # ── HMAC 서명 생성 ───────────────────────────────────────────
 def make_auth(method, path, query=""):
-    dt = datetime.utcnow().strftime("%y%m%dT%H%M%SZ")
+    import time
+    dt = time.strftime('%y%m%d', time.gmtime()) + 'T' + time.strftime('%H%M%S', time.gmtime()) + 'Z'
     message = dt + method + path + query
     sig = hmac.new(
-        SECRET_KEY.encode("utf-8"),
-        message.encode("utf-8"),
+        SECRET_KEY.encode('utf-8'),
+        message.encode('utf-8'),
         hashlib.sha256
     ).hexdigest()
-    auth = f"CEA algorithm=HmacSHA256, access-key={ACCESS_KEY}, signed-date={dt}, signature={sig}"
+    auth = "CEA algorithm=HmacSHA256, access-key=" + ACCESS_KEY + ", signed-date=" + dt + ", signature=" + sig
     return auth, dt
 
 def coupang_get(path, params=None):
