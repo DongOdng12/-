@@ -85,12 +85,6 @@ def get_orders():
     date_to    = request.args.get("to",     today())
 
     path = f"/v2/providers/openapi/apis/api/v4/vendors/{VENDOR_ID}/ordersheets"
-params = {
-    "createdAtFrom": date_from,
-    "createdAtTo":   date_to,
-    "status":        status,
-    "maxPerPage":    100,
-}
     params = {
         "createdAtFrom": date_from,
         "createdAtTo":   date_to,
